@@ -15,6 +15,7 @@ WAIKANE_TIDE_FILE = os.path.join(BASE_DIR, 'Waikane_Tide_Data.json')
 WAIKANE_STREAM_FILE = os.path.join(BASE_DIR, 'Waikane_Stream_Data.json')
 WAIAHOLE_STREAM_FILE = os.path.join(BASE_DIR, 'Waiahole_Stream_Data.json')
 WAIKANE_TIDE_CURVE_FILE = os.path.join(BASE_DIR, 'Waikane_Tide_Curve.json')
+RAIN_DATA_FILE = os.path.join(BASE_DIR, 'Rain_Data.json')
 
 def update_data():
     try:
@@ -59,6 +60,16 @@ def get_waikane_tide_curve():
     update_data()  # Update data before serving
     try:
         with open(WAIKANE_TIDE_CURVE_FILE, 'r') as f:
+            data = json.load(f)
+        return jsonify(data)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+@app.route('/api/rain_data', methods=['GET'])
+def get_rain_data():
+    update_data()  # Update data before serving
+    try:    
+        with open(RAIN_DATA_FILE, 'r') as f:
             data = json.load(f)
         return jsonify(data)
     except Exception as e:
